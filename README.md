@@ -10,10 +10,11 @@ We run roles to setup the master, acquire the ip and fingerprint, then setup the
 
 ## Hosts file
 Replace the fields that need replacing.
-
+```
 [masters]
 master ansible_ssh_host=127.0.0.1 ansible_ssh_port=<vagrant_box_port> ansible_ssh_user='vagrant' ansible_ssh_private_key_file='vagrant_box_key'
 
 [minions]
 minion1 ansible_ssh_host=127.0.0.1 ansible_ssh_port=<vagrant_box_port> ansible_ssh_user='vagrant' ansible_ssh_private_key_file='vagrant_box_key'
 minion2 ansible_ssh_host=127.0.0.1 ansible_ssh_port=<vagrant_box_port> ansible_ssh_user='vagrant' ansible_ssh_private_key_file='vagrant_box_key'
+```
