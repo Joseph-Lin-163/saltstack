@@ -1,0 +1,23 @@
+---
+- name: Install salt master
+  hosts: masters
+  roles:
+    - salt-master-role
+
+- name: Install salt minions
+  hosts: minions
+  roles:
+    - role: salt-minion-role
+      vars:
+        master_finger: "{{ hostvars.master.master_finger.stdout }}"
+        master_ip: "{{ hostvars.master.ansible_eth1.ipv4.address }}"
+
+- name: Add minions to master
+  hosts: masters
+  tasks:
+    - include: tasks/add_minions_to_master.yml
+
+
+
+  # - debug: msg={{ hostvars.master.master_finger.stdout }}
+  # - debug: msg={{ hostvars.master.ansible_eth1.ipv4.address }}

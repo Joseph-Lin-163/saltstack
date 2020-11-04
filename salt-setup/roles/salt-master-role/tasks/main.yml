@@ -1,0 +1,16 @@
+---
+#- name: Install salt master
+- name: Install salt master
+  apt:
+      name: salt-master
+      update_cache: yes
+
+- name: Make sure salt-master is running
+  systemd:
+    state: started
+    name: salt-master
+
+- name: Register master fingerprint
+  shell: |
+    salt-key -F master | grep pub | cut -d' ' -f3
+  register: master_finger

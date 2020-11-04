@@ -1,0 +1,5 @@
+salt_configs/
+.vagrant
+.git
+salt-setup/hosts
+salt-setup/main.py

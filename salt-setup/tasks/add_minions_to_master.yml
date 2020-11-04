@@ -1,0 +1,9 @@
+---
+- name: Accept salt minions based on fingerprint
+  shell: |
+    salt-key -f {{ item }} | grep {{ hostvars[item]['minion_finger']['stdout'] }}
+    if [ $? -eq 0 ]; then
+        echo "Y" | salt-key -a {{ item }}
+    fi
+  with_items:
+      - "{{ groups.minions }}"

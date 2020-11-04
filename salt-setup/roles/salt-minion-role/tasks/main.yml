@@ -1,0 +1,31 @@
+---
+# tasks file for salt-minion-role
+- name: Install salt minion
+  apt:
+    name: salt-minion
+    update_cache: yes
+
+- name: Stat config file
+  stat:
+    path: /etc/salt/minion.d/minion.conf
+  register: st
+
+- name: Add config files for minion to communicate with master
+  shell: |
+    echo "master_finger: /etc/salt/minion.d/{{ master_finger }}" > /etc/salt/minion.d/minion.conf
+    echo "master: {{ master_ip }}" >> /etc/salt/minion.d/minion.conf
+  when: not st.stat.exists
+
+- name: Restart salt-minion
+  systemd:
+    state: restarted
+    name: salt-minion
+  when: not st.stat.exists
+
+- name: Register minion fingerprint
+  shell: |
+    salt-call --local key.finger | grep -v local | tr -d ' '
+  register: minion_finger
+
+# - debug: msg="{{ master_finger }}"
+# - debug: msg="{{ master_ip }}"
